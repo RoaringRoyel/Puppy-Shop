@@ -39,7 +39,7 @@ Features include:
 
 Developed in Python using **modular design principles** and approved libraries such as `csv`, `numpy`, and `matplotlib`.
 
-**Interface:** Both **CLI** and **GUI**.
+**Interface:** Both **CLI** 
 
 ---
 
@@ -91,6 +91,28 @@ Developed in Python using **modular design principles** and approved libraries s
   - Combined with data integrity, guarantees consistent and reliable stored data 
   - Saves all sales transactions to sales.csv
   - Saves all inventory changes to puppy.csv
+```bash
+def persist_system_data(transactions_file, inventory_file, transaction_records, inventory_records):
+    try:
+        transaction_columns = ['date', 'time', 'id', 'quantity', 'payment']
+        with open(transactions_file, 'w', newline='', encoding='utf-8') as file_stream:
+            csv_writer = csv.DictWriter(file_stream, fieldnames=transaction_columns)
+            csv_writer.writeheader()
+            csv_writer.writerows(transaction_records)
+        print(f"Transaction history written '{transactions_file}'.")
+    except Exception as err:
+        print(f"file save failed: {err}")
+
+    try:
+        inventory_columns = ['id', 'name', 'price', 'stock']
+        with open(inventory_file, 'w', newline='', encoding='utf-8') as file_stream:
+            csv_writer = csv.DictWriter(file_stream, fieldnames=inventory_columns)
+            csv_writer.writeheader()
+            csv_writer.writerows(inventory_records)
+        print(f"Inventory database written to '{inventory_file}'.")
+    except Exception as err:
+        print(f"Inventory file save failed: {err}")
+```
  
 **Data Integrity:**  
 - `standardize_csv_data(file_obj, required_fields)` ensures:
@@ -98,14 +120,36 @@ Developed in Python using **modular design principles** and approved libraries s
   - Records missing required fields are rejected  
   - Values are cleared and trimmed  
   - BOM issues handled  
+```bash
+def standardize_csv_data(file_obj, required_fields): #before loading
+    try:
+        csv_reader = csv.DictReader(file_obj)
+        standardized_records = []
+        for entry in csv_reader:
+            sanitized_entry = {}
+            for header, val in entry.items():
+                if header is not None:
+                    processed_header = header.strip().lower().replace('\ufeff', '')
+                    if processed_header in required_fields:
+                        sanitized_entry[processed_header] = val.strip() if isinstance(val, str) else val
+            if any(field in sanitized_entry for field in required_fields):
+                standardized_records.append(sanitized_entry)
+        return standardized_records
 
+    except Exception as err:
+        raise Exception(f"Data standardization failed: {err}")
+```
 **Redundancy Control:**  
 - `register_new_item(inventory_records, generate_next_id_func)`:
   - Prevents duplicate product names  
   - Ensures product IDs are unique (Auto Generated Primary Key)  
 
-**Transactions:**  
-- Multiple transactions at the same time create separate entities (timestamps ensure uniqueness)  
+## Transactions
+`record_new_transaction(transaction_records, inventory_records, ...)` ensures:
+- Each transaction records **date, time, product ID, quantity, and payment**
+- Inventory stock is automatically updated after each sale
+- Only valid quantities within available stock are allowed
+- Timestamping guarantees unique records even for simultaneous transactions
 
 ---
 
@@ -156,13 +200,47 @@ Developed in Python using **modular design principles** and approved libraries s
 
 ---
 
+
+## Screenshots
+### CLI View
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px;">
+
+  <div style="text-align: center;">
+    <img src="ss/login.png" alt="Login" width="250">
+    <h4>Login</h4>
+  </div>
+
+  <div style="text-align: center;">
+    <img src="ss/product.png" alt="Product" width="250">
+    <h4>Product View</h4>
+  </div>
+
+  <div style="text-align: center;">
+    <img src="ss/months.png" alt="Months" width="250">
+    <h4>Month Analysis</h4>
+  </div>
+  <div style="text-align: center;">
+    <img src="ss/range.png" alt="Range" width="250">
+    <h4>Search by Range</h4>
+  </div>
+
+  <div style="text-align: center;">
+    <img src="ss/record.png" alt="Record" width="250">
+    <h4>All Product View</h4>
+  </div>
+
+</div>
+
+
+
+
+
+
+
 ## 🖥 How to Run
 
 ### CLI Version
 ```bash
 python main_app.py sales.csv puppy.csv
-```
-### GUI Version
-```bash
-python gui_app.py sales.csv puppy.csv users.csv
 ```

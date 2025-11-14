@@ -65,20 +65,15 @@ def show_inventory_catalog(inventory_records):
     print("=" * 60)
 
 def register_new_item(inventory_records, generate_next_id_func):
-    print("\n=== New Product Registration ===")
-    
     auto_id = generate_next_id_func(inventory_records)
     print(f"System-Generated Product ID: {auto_id}")
-
     item_name = input("Product Name: ").strip()
     if not item_name:
         print("Product name is required.")
         return
-        
     if any(item.get('name', '').lower() == item_name.lower() for item in inventory_records):
         print(f"A product with the name '{item_name}' already exists.")
         return
-
     try:
         unit_price = float(input("Price per Unit: ").strip())
         if unit_price <= 0:
@@ -87,7 +82,6 @@ def register_new_item(inventory_records, generate_next_id_func):
     except ValueError:
         print("Invalid price format. Must be numeric.")
         return
-
     try:
         initial_stock = int(input("Initial Stock Quantity: ").strip())
         if initial_stock < 0:
@@ -96,7 +90,6 @@ def register_new_item(inventory_records, generate_next_id_func):
     except ValueError:
         print("Error")
         return
-
     new_inventory_item = {
         'id': auto_id,
         'name': item_name,
