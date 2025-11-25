@@ -1,4 +1,4 @@
-# All For My Puppy - Sales Management System
+#Puppy Shop - Sales Management System
 
 
 ---
@@ -207,21 +207,21 @@ def standardize_csv_data(file_obj, required_fields): #before loading
 <div style="display: flex; flex-wrap: wrap; gap: 20px;">
 
   <div style="text-align: center;">
-    <img src="ss/login.png" alt="Login" width="250">
+    <img src="ss/login.png" alt="Login" width="35%">
     <h4>Login</h4>
   </div>
 
   <div style="text-align: center;">
-    <img src="ss/product.png" alt="Product" width="250">
+    <img src="ss/product.png" alt="Product" width="35%">
     <h4>Product View</h4>
   </div>
 
   <div style="text-align: center;">
-    <img src="ss/months.png" alt="Months" width="250">
+    <img src="ss/months.png" alt="Months" width="35%">
     <h4>Month Analysis</h4>
   </div>
   <div style="text-align: center;">
-    <img src="ss/range.png" alt="Range" width="250">
+    <img src="ss/range.png" alt="Range" width="35%">
     <h4>Search by Range</h4>
   </div>
 
