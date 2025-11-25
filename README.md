@@ -45,14 +45,15 @@ Developed in Python using **modular design principles** and approved libraries s
 
 ## 📂 Files
 
-| File | Description |
-|------|-------------|
-| `puppy.csv` | Stores product inventory |
-| `sales.csv` | Stores sales transactions |
-| `users.csv` | Stores user credentials |
-| `main_app.py` | Controller (Routes, Authenticates, Loads data) |
-| `inventory_manager.py` | Model (Product management & inventory operations) |
-| `transaction_processor.py` | Model (Transactions & Analytics) |
+| File | Description | Metadata / Columns |
+|------|-------------|------------------|
+| `puppy.csv` | Stores product inventory | `product_id` (int): unique ID <br> `product_name` (string): name of the product <br> `price` (float): price per unit <br> `stock` (int): current stock level |
+| `sales.csv` | Stores sales transactions | `date` (YYYY-MM-DD): date of sale <br> `time` (HH:MM:SS): time of sale <br> `product_id` (int): product sold <br> `quantity` (int): quantity sold <br> `payment` (float): amount received |
+| `users.csv` | Stores user credentials | `username` (string): login username <br> `password` (string): login password <br> `role` (string): `assistant` or `manager` |
+| `main_app.py` | Controller (Routes, Authenticates, Loads data) | Handles program flow, user login, menu display, file I/O, and integration between modules |
+| `inventory_manager.py` | Model (Product management & inventory operations) | Functions for adding, updating, and retrieving product details; stock management |
+| `transaction_processor.py` | Model (Transactions & Analytics) | Functions for recording sales, searching sales, generating analytics, and producing graphs |
+
 
 ---
 
